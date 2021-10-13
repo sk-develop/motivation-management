@@ -14,86 +14,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// TaskAPIClient is the client API for TaskAPI service.
+// TaskServiceClient is the client API for TaskService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TaskAPIClient interface {
+type TaskServiceClient interface {
 	GetTasks(ctx context.Context, in *TaskRequest, opts ...grpc.CallOption) (*TaskReply, error)
 }
 
-type taskAPIClient struct {
+type taskServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTaskAPIClient(cc grpc.ClientConnInterface) TaskAPIClient {
-	return &taskAPIClient{cc}
+func NewTaskServiceClient(cc grpc.ClientConnInterface) TaskServiceClient {
+	return &taskServiceClient{cc}
 }
 
-func (c *taskAPIClient) GetTasks(ctx context.Context, in *TaskRequest, opts ...grpc.CallOption) (*TaskReply, error) {
+func (c *taskServiceClient) GetTasks(ctx context.Context, in *TaskRequest, opts ...grpc.CallOption) (*TaskReply, error) {
 	out := new(TaskReply)
-	err := c.cc.Invoke(ctx, "/task.TaskAPI/GetTasks", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/task.taskService/GetTasks", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TaskAPIServer is the server API for TaskAPI service.
-// All implementations must embed UnimplementedTaskAPIServer
+// TaskServiceServer is the server API for TaskService service.
+// All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility
-type TaskAPIServer interface {
+type TaskServiceServer interface {
 	GetTasks(context.Context, *TaskRequest) (*TaskReply, error)
-	mustEmbedUnimplementedTaskAPIServer()
+	mustEmbedUnimplementedTaskServiceServer()
 }
 
-// UnimplementedTaskAPIServer must be embedded to have forward compatible implementations.
-type UnimplementedTaskAPIServer struct {
+// UnimplementedTaskServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTaskServiceServer struct {
 }
 
-func (UnimplementedTaskAPIServer) GetTasks(context.Context, *TaskRequest) (*TaskReply, error) {
+func (UnimplementedTaskServiceServer) GetTasks(context.Context, *TaskRequest) (*TaskReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTasks not implemented")
 }
-func (UnimplementedTaskAPIServer) mustEmbedUnimplementedTaskAPIServer() {}
+func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 
-// UnsafeTaskAPIServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TaskAPIServer will
+// UnsafeTaskServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TaskServiceServer will
 // result in compilation errors.
-type UnsafeTaskAPIServer interface {
-	mustEmbedUnimplementedTaskAPIServer()
+type UnsafeTaskServiceServer interface {
+	mustEmbedUnimplementedTaskServiceServer()
 }
 
-func RegisterTaskAPIServer(s grpc.ServiceRegistrar, srv TaskAPIServer) {
-	s.RegisterService(&TaskAPI_ServiceDesc, srv)
+func RegisterTaskServiceServer(s grpc.ServiceRegistrar, srv TaskServiceServer) {
+	s.RegisterService(&TaskService_ServiceDesc, srv)
 }
 
-func _TaskAPI_GetTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TaskService_GetTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskAPIServer).GetTasks(ctx, in)
+		return srv.(TaskServiceServer).GetTasks(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/task.TaskAPI/GetTasks",
+		FullMethod: "/task.taskService/GetTasks",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskAPIServer).GetTasks(ctx, req.(*TaskRequest))
+		return srv.(TaskServiceServer).GetTasks(ctx, req.(*TaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// TaskAPI_ServiceDesc is the grpc.ServiceDesc for TaskAPI service.
+// TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TaskAPI_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "task.TaskAPI",
-	HandlerType: (*TaskAPIServer)(nil),
+var TaskService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "task.taskService",
+	HandlerType: (*TaskServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetTasks",
-			Handler:    _TaskAPI_GetTasks_Handler,
+			Handler:    _TaskService_GetTasks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
