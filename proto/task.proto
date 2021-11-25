@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package task;
+
+option go_package = "./;taskService";
+
+import "google/protobuf/timestamp.proto";
+
+service taskService {
+  rpc GetTasks(GetTasksReq) returns (GetTasksRes);
+
+  rpc GetCompletedTasksTotal(GetTasksTotalReq) returns (GetCompletedTasksTotalRes);
+  rpc GetCompletedTasksDailyTotal(GetTasksTotalReq) returns (CompletedTasksDailyTotalRes);
+}
+
+message GetTasksReq {
+	string UserID = 1;
+}
+
+message GetTasksRes {
+	repeated Task Tasks = 1;
+}
+
+message GetTasksTotalReq {
+	string UserID = 1;
+  Period Period = 2;
+}
+
+message GetCompletedTasksTotalRes {
+  uint32 CompletedTasksTotal = 1;
+}
+
+message CompletedTasksDailyTotalRes {
+  repeated CompletedTasksDailyTotal CompletedTasksDailyTotals = 3;
+}
+
+message CompletedTasksDailyTotal {
+  uint32 CompletedTasksTotal = 1;
+  google.protobuf.Timestamp date = 2;
+}
+
+message Period {
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+}
+
+message Task {
+	int64 ID = 1;
+  string UserID = 2;  
+  string Name = 3;
+  bool Completed = 4;
+  google.protobuf.Timestamp DueDate = 5;
+  google.protobuf.Timestamp CreatedAt = 6;
+  google.protobuf.Timestamp UpdatedAt = 7;
+}
