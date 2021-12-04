@@ -7,7 +7,7 @@ import (
 
 type ID int
 
-func (taskValue *taskValue) NewID(i int) (*ID, error) {
+func (tv *taskValue) NewID(i int) (*ID, error) {
 	if i < minLength {
 		err := errors.NewValidationError("ID must be an integer greater than or equal to 1")
 		logger.Warn(err)

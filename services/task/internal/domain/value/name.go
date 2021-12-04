@@ -7,7 +7,7 @@ import (
 
 type Name string
 
-func (taskValue *taskValue) NewName(value string) (*Name, error) {
+func (tv *taskValue) NewName(value string) (*Name, error) {
 	if len(value) == 0 {
 		err := errors.NewValidationError("Name is required")
 		logger.Warn(err)

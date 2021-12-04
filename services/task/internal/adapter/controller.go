@@ -20,26 +20,22 @@ type TaskController struct {
 	taskModel   model.TaskModel
 }
 
-func NewTaskController(
-	taskUsecase usecase.TaskUsecase,
-	taskValue value.TaskValue,
-	taskModel model.TaskModel,
-) Controller {
-	return &TaskController{taskUsecase: taskUsecase, taskValue: taskValue, taskModel: taskModel}
+func NewTaskController(tu usecase.TaskUsecase, tv value.TaskValue, tm model.TaskModel) Controller {
+	return &TaskController{taskUsecase: tu, taskValue: tv, taskModel: tm}
 }
 
-func (taskController *TaskController) Get(userID string) ([]*pb.Task, error) {
-	validUserID, err := taskController.taskValue.NewUserID(userID)
+func (tc *TaskController) Get(userID string) ([]*pb.Task, error) {
+	validUserID, err := tc.taskValue.NewUserID(userID)
 	if err != nil {
 		return nil, err
 	}
 
-	foundTasks, err := taskController.taskUsecase.ReadAll(*validUserID)
+	foundTasks, err := tc.taskUsecase.ReadAll(*validUserID)
 	if err != nil {
 		return nil, err
 	}
 
-	tasksMessage := taskController.taskModel.TasksToGrpcMessage(foundTasks)
+	tasksMessage := tc.taskModel.TasksToGrpcMessage(foundTasks)
 
 	return tasksMessage, nil
 }

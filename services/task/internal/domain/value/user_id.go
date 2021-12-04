@@ -7,7 +7,7 @@ import (
 
 type UserID string
 
-func (taskValue *taskValue) NewUserID(value string) (*UserID, error) {
+func (tv *taskValue) NewUserID(value string) (*UserID, error) {
 	if len(value) == 0 {
 		err := errors.NewValidationError("User ID is required")
 		logger.Warn(err)

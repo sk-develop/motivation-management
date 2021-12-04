@@ -68,7 +68,6 @@ func NewTaskGrpcServer(taskController adapter.Controller, zapLogger *zap.Logger)
 	}
 
 	lis, err := net.Listen("tcp", os.Getenv("GRPC_PORT"))
-
 	if err != nil {
 		panic(err)
 	}

@@ -17,9 +17,9 @@ func NewTaskRepository(conn *gorm.DB) repository.TaskRepository {
 	return &TaskRepository{conn: conn}
 }
 
-func (taskRepository *TaskRepository) ReadAll(userId value.UserID) (*model.Tasks, error) {
+func (tr *TaskRepository) ReadAll(userId value.UserID) (*model.Tasks, error) {
 	var foundTask model.Tasks
-	if err := taskRepository.conn.Where("user_id = ?", userId).Find(&foundTask).Error; err != nil {
+	if err := tr.conn.Where("user_id = ?", userId).Find(&foundTask).Error; err != nil {
 		logger.Warn(err)
 		return nil, err
 	}

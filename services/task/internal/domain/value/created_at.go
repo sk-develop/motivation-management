@@ -9,7 +9,7 @@ import (
 
 type CreatedAt time.Time
 
-func (taskValue *taskValue) NewCreatedAt(value time.Time) (*CreatedAt, error) {
+func (tv *taskValue) NewCreatedAt(value time.Time) (*CreatedAt, error) {
 	now := time.Now()
 	if !now.Before(value) {
 		err := errors.NewValidationError("Past date cannot be registered")

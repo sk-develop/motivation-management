@@ -18,11 +18,6 @@ func NewTaskUsecase(taskRepository repository.TaskRepository) TaskUsecase {
 	return &taskUsecase{taskRepository: taskRepository}
 }
 
-func (taskUsecase *taskUsecase) ReadAll(userId value.UserID) (*model.Tasks, error) {
-	foundTasks, err := taskUsecase.taskRepository.ReadAll(userId)
-	if err != nil {
-		return nil, err
-	}
-
-	return foundTasks, nil
+func (tu *taskUsecase) ReadAll(userId value.UserID) (*model.Tasks, error) {
+	return tu.taskRepository.ReadAll(userId)
 }

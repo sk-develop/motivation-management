@@ -9,7 +9,7 @@ import (
 
 type DueDate time.Time
 
-func (taskValue *taskValue) NewDueDate(value time.Time) (*DueDate, error) {
+func (tv *taskValue) NewDueDate(value time.Time) (*DueDate, error) {
 	now := time.Now()
 	if !now.Before(value) {
 		err := errors.NewValidationError("Past date cannot be registered")
