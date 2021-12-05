@@ -27,8 +27,8 @@ func (tr *TaskRepository) ReadAll(userId value.UserID) (*model.Tasks, error) {
 	return &foundTask, nil
 }
 
-func (tr *TaskRepository) Create(userID *value.UserID, name *value.Name, dueDate *value.DueDate) (*model.Task, error) {
-	createdTask := model.Task{UserID: *userID, Name: *name, DueDate: *dueDate}
+func (tr *TaskRepository) Create(userID value.UserID, name value.Name, dueDate value.DueDate) (*model.Task, error) {
+	createdTask := model.Task{UserID: userID, Name: name, DueDate: dueDate}
 
 	if err := tr.conn.Create(&createdTask).Error; err != nil {
 		return nil, err
