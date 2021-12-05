@@ -8,6 +8,7 @@ import (
 	"github.com/sk-develop/motivation-management/services/task/internal/infra/server"
 	"github.com/sk-develop/motivation-management/services/task/internal/usecase"
 	"github.com/sk-develop/motivation-management/shared/env"
+	"github.com/sk-develop/motivation-management/shared/grpc"
 	"github.com/sk-develop/motivation-management/shared/logger"
 )
 
@@ -19,7 +20,8 @@ func main() {
 	taskRepository := repository.NewTaskRepository(conn)
 	taskUsecase := usecase.NewTaskUsecase(taskRepository)
 	taskValue := value.NewTaskValue()
-	taskModel := model.NewTaskModel(taskValue)
+	grpcType := grpc.NewGrpcType()
+	taskModel := model.NewTaskModel(taskValue, grpcType)
 	taskController := adapter.NewTaskController(taskUsecase, taskValue, taskModel)
 
 	grpcServer := server.NewTaskGrpcServer(taskController, logger)

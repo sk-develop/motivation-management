@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/sk-develop/motivation-management/services/task/internal/domain/value"
+	"github.com/sk-develop/motivation-management/shared/grpc"
 	pb "github.com/sk-develop/motivation-management/shared/proto/task"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Task struct {
@@ -27,6 +27,7 @@ type TaskModel interface {
 
 type taskModel struct {
 	taskValue value.TaskValue
+	grpcType  grpc.GrpcType
 }
 
 func (tm *taskModel) TasksToGrpcMessage(tasks *Tasks) []*pb.Task {
@@ -38,9 +39,9 @@ func (tm *taskModel) TasksToGrpcMessage(tasks *Tasks) []*pb.Task {
 			UserID:    string(t.UserID),
 			Name:      string(t.Name),
 			Completed: bool(t.Completed),
-			DueDate:   Timestamp(time.Time(t.DueDate)),
-			CreatedAt: Timestamp(time.Time(t.DueDate)),
-			UpdatedAt: Timestamp(time.Time(t.DueDate)),
+			DueDate:   tm.grpcType.Timestamp(time.Time(t.DueDate)),
+			CreatedAt: tm.grpcType.Timestamp(time.Time(t.DueDate)),
+			UpdatedAt: tm.grpcType.Timestamp(time.Time(t.DueDate)),
 		}
 
 		grpcMessage = append(grpcMessage, task)
@@ -55,21 +56,14 @@ func (tm *taskModel) TaskToGrpcMessage(t *Task) *pb.Task {
 		UserID:    string(t.UserID),
 		Name:      string(t.Name),
 		Completed: bool(t.Completed),
-		DueDate:   Timestamp(time.Time(t.DueDate)),
-		CreatedAt: Timestamp(time.Time(t.DueDate)),
-		UpdatedAt: Timestamp(time.Time(t.DueDate)),
+		DueDate:   tm.grpcType.Timestamp(time.Time(t.DueDate)),
+		CreatedAt: tm.grpcType.Timestamp(time.Time(t.DueDate)),
+		UpdatedAt: tm.grpcType.Timestamp(time.Time(t.DueDate)),
 	}
 
 	return grpcMessage
 }
 
-func Timestamp(t time.Time) *timestamppb.Timestamp {
-	return &timestamppb.Timestamp{
-		Seconds: t.Unix(),
-		Nanos:   int32(t.Nanosecond()),
-	}
-}
-
-func NewTaskModel(taskValue value.TaskValue) TaskModel {
-	return &taskModel{taskValue: taskValue}
+func NewTaskModel(taskValue value.TaskValue, grpcType grpc.GrpcType) TaskModel {
+	return &taskModel{taskValue: taskValue, grpcType: grpcType}
 }
