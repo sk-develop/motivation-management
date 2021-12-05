@@ -22,6 +22,7 @@ type Tasks []Task
 
 type TaskModel interface {
 	TasksToGrpcMessage(tasks *Tasks) []*pb.Task
+	TaskToGrpcMessage(task *Task) *pb.Task
 }
 
 type taskModel struct {
@@ -43,6 +44,20 @@ func (tm *taskModel) TasksToGrpcMessage(tasks *Tasks) []*pb.Task {
 		}
 
 		grpcMessage = append(grpcMessage, task)
+	}
+
+	return grpcMessage
+}
+
+func (tm *taskModel) TaskToGrpcMessage(t *Task) *pb.Task {
+	grpcMessage := &pb.Task{
+		ID:        int64(t.ID),
+		UserID:    string(t.UserID),
+		Name:      string(t.Name),
+		Completed: bool(t.Completed),
+		DueDate:   Timestamp(time.Time(t.DueDate)),
+		CreatedAt: Timestamp(time.Time(t.DueDate)),
+		UpdatedAt: Timestamp(time.Time(t.DueDate)),
 	}
 
 	return grpcMessage

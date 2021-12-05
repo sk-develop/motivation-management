@@ -8,6 +8,7 @@ import (
 
 type TaskUsecase interface {
 	ReadAll(userId value.UserID) (*model.Tasks, error)
+	Create(userID *value.UserID, name *value.Name, dueDate *value.DueDate) (*model.Task, error)
 }
 
 type taskUsecase struct {
@@ -20,4 +21,8 @@ func NewTaskUsecase(taskRepository repository.TaskRepository) TaskUsecase {
 
 func (tu *taskUsecase) ReadAll(userId value.UserID) (*model.Tasks, error) {
 	return tu.taskRepository.ReadAll(userId)
+}
+
+func (tu *taskUsecase) Create(userID *value.UserID, name *value.Name, dueDate *value.DueDate) (*model.Task, error) {
+	return tu.taskRepository.Create(userID, name, dueDate)
 }

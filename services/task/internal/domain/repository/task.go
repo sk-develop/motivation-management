@@ -7,4 +7,5 @@ import (
 
 type TaskRepository interface {
 	ReadAll(userId value.UserID) (*model.Tasks, error)
+	Create(userID *value.UserID, name *value.Name, dueDate *value.DueDate) (*model.Task, error)
 }
