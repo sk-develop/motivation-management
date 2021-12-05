@@ -23,6 +23,8 @@ type Tasks []Task
 type TaskModel interface {
 	TasksToGrpcMessage(tasks *Tasks) []*pb.Task
 	TaskToGrpcMessage(task *Task) *pb.Task
+	NewGetTaskReq(pbReq *pb.GetTasksReq) (*GetTaskReq, error)
+	NewCreateTaskReq(pbReq *pb.CreateTaskReq) (*CreateTaskReq, error)
 }
 
 type taskModel struct {

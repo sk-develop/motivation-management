@@ -7,7 +7,7 @@ import (
 )
 
 func (ts TaskServer) GetTasks(ctx context.Context, req *pb.GetTasksReq) (*pb.GetTasksRes, error) {
-	tasks, err := ts.taskController.Get(req.UserID)
+	tasks, err := ts.taskController.Get(req)
 	if err != nil {
 		return nil, err
 	}
@@ -16,7 +16,7 @@ func (ts TaskServer) GetTasks(ctx context.Context, req *pb.GetTasksReq) (*pb.Get
 }
 
 func (ts TaskServer) CreateTask(ctx context.Context, req *pb.CreateTaskReq) (*pb.CreateTaskRes, error) {
-	task, err := ts.taskController.Create(req.UserID, req.Name, req.DueDate)
+	task, err := ts.taskController.Create(req)
 	if err != nil {
 		return nil, err
 	}

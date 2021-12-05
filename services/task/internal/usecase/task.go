@@ -3,12 +3,11 @@ package usecase
 import (
 	"github.com/sk-develop/motivation-management/services/task/internal/domain/model"
 	"github.com/sk-develop/motivation-management/services/task/internal/domain/repository"
-	"github.com/sk-develop/motivation-management/services/task/internal/domain/value"
 )
 
 type TaskUsecase interface {
-	ReadAll(userId value.UserID) (*model.Tasks, error)
-	Create(userID *value.UserID, name *value.Name, dueDate *value.DueDate) (*model.Task, error)
+	ReadAll(req *model.GetTaskReq) (*model.Tasks, error)
+	Create(req *model.CreateTaskReq) (*model.Task, error)
 }
 
 type taskUsecase struct {
@@ -19,10 +18,10 @@ func NewTaskUsecase(taskRepository repository.TaskRepository) TaskUsecase {
 	return &taskUsecase{taskRepository: taskRepository}
 }
 
-func (tu *taskUsecase) ReadAll(userId value.UserID) (*model.Tasks, error) {
-	return tu.taskRepository.ReadAll(userId)
+func (tu *taskUsecase) ReadAll(req *model.GetTaskReq) (*model.Tasks, error) {
+	return tu.taskRepository.ReadAll(req.UserID)
 }
 
-func (tu *taskUsecase) Create(userID *value.UserID, name *value.Name, dueDate *value.DueDate) (*model.Task, error) {
-	return tu.taskRepository.Create(userID, name, dueDate)
+func (tu *taskUsecase) Create(req *model.CreateTaskReq) (*model.Task, error) {
+	return tu.taskRepository.Create(req.UserID, req.Name, req.DueDate)
 }
