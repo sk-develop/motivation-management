@@ -11,7 +11,7 @@ func NewUserID(value string) (*UserID, error) {
 		return nil, errors.NewValidationError("User ID is required")
 	}
 
-	if len(value) > lengthLimit {
+	if len(value) > maxLength {
 		return nil, errors.NewValidationError("User ID must be less than 255 characters")
 	}
 	userID := UserID(value)

@@ -11,8 +11,8 @@ type Task struct {
 }
 
 const (
-	lengthLimit = 255
-	minLength   = 1
+	maxLength = 255
+	minLength = 1
 )
 
 type Tasks []Task

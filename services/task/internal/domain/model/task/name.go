@@ -13,7 +13,7 @@ func NewName(value string) (*Name, error) {
 		return nil, err
 	}
 
-	if len(value) >= lengthLimit {
+	if len(value) >= maxLength {
 		err := errors.NewValidationError("Name must be 255 characters or less")
 
 		return nil, err
