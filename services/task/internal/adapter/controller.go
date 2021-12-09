@@ -1,8 +1,8 @@
 package adapter
 
 import (
-	"github.com/sk-develop/motivation-management/services/task/internal/domain/model"
-	"github.com/sk-develop/motivation-management/services/task/internal/domain/value"
+	"github.com/sk-develop/motivation-management/services/task/internal/domain/model/request"
+	"github.com/sk-develop/motivation-management/services/task/internal/domain/model/response"
 	"github.com/sk-develop/motivation-management/services/task/internal/usecase"
 	pb "github.com/sk-develop/motivation-management/shared/proto/task"
 )
@@ -11,12 +11,12 @@ type TaskController struct {
 	taskUsecase usecase.TaskUsecase
 }
 
-func NewTaskController(tu usecase.TaskUsecase, tv value.TaskValue, tm model.TaskModel) Controller {
-	return &TaskController{taskUsecase: tu, taskValue: tv, taskModel: tm}
+func NewTaskController(tu usecase.TaskUsecase) *TaskController {
+	return &TaskController{taskUsecase: tu}
 }
 
-func (tc *TaskController) Get(pbReq *pb.GetTasksReq) ([]*pb.Task, error) {
-	req, err := tc.taskModel.NewGetTaskReq(pbReq)
+func (tc *TaskController) Get(pbReq *pb.GetTasksReq) (*pb.GetTasksRes, error) {
+	req, err := request.NewGetTaskReq(pbReq)
 	if err != nil {
 		return nil, err
 	}
@@ -26,13 +26,11 @@ func (tc *TaskController) Get(pbReq *pb.GetTasksReq) ([]*pb.Task, error) {
 		return nil, err
 	}
 
-	res := tc.taskModel.TasksToGrpcMessage(foundTasks)
-
-	return res, nil
+	return response.GetTasksGrpcRes(foundTasks), nil
 }
 
-func (tc *TaskController) Create(pbReq *pb.CreateTaskReq) (*pb.Task, error) {
-	req, err := tc.taskModel.NewCreateTaskReq(pbReq)
+func (tc *TaskController) Create(pbReq *pb.CreateTaskReq) (*pb.CreateTaskRes, error) {
+	req, err := request.NewCreateTask(pbReq)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +40,5 @@ func (tc *TaskController) Create(pbReq *pb.CreateTaskReq) (*pb.Task, error) {
 		return nil, err
 	}
 
-	tasksMessage := tc.taskModel.TaskToGrpcMessage(foundTasks)
-
-	return tasksMessage, nil
+	return response.CreateTasksGrpcRes(foundTasks), nil
 }
