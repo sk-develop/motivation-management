@@ -1,11 +1,10 @@
 package repository
 
 import (
-	"github.com/sk-develop/motivation-management/services/task/internal/domain/model"
-	"github.com/sk-develop/motivation-management/services/task/internal/domain/value"
+	"github.com/sk-develop/motivation-management/services/task/internal/domain/model/task"
 )
 
 type TaskRepository interface {
-	ReadAll(userId value.UserID) (*model.Tasks, error)
-	Create(userID value.UserID, name value.Name, dueDate value.DueDate) (*model.Task, error)
+	ReadAll(userId task.UserID) (*task.Tasks, error)
+	Create(userID task.UserID, name task.Name, dueDate task.DueDate) (*task.Task, error)
 }
