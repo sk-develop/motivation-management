@@ -24,11 +24,11 @@ import (
 
 type TaskServer struct {
 	pb.UnimplementedTaskServiceServer
-	taskController adapter.Controller
+	taskController adapter.TaskController
 }
 
-func newTaskServer(taskController adapter.Controller) *TaskServer {
-	return &TaskServer{taskController: taskController}
+func newTaskServer(taskController *adapter.TaskController) *TaskServer {
+	return &TaskServer{taskController: *taskController}
 }
 
 const (
@@ -38,7 +38,7 @@ const (
 	gRPCTime          = 10
 )
 
-func NewTaskGrpcServer(taskController adapter.Controller, zapLogger *zap.Logger) *grpc.Server {
+func NewTaskGrpcServer(taskController *adapter.TaskController, zapLogger *zap.Logger) *grpc.Server {
 	grpcServer := grpc.NewServer(
 		grpc.KeepaliveParams(keepalive.ServerParameters{
 			MaxConnectionIdle: maxConnectionIdle * time.Minute,
