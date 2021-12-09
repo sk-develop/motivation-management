@@ -1,4 +1,4 @@
-package value
+package task
 
 import (
 	"time"
@@ -9,7 +9,7 @@ import (
 
 type CreatedAt time.Time
 
-func (tv *taskValue) NewCreatedAt(value time.Time) (*CreatedAt, error) {
+func NewCreatedAt(value time.Time) (*CreatedAt, error) {
 	now := time.Now()
 	if !now.Before(value) {
 		err := errors.NewValidationError("Past date cannot be registered")

@@ -1,4 +1,4 @@
-package value
+package task
 
 import (
 	"time"
@@ -7,9 +7,9 @@ import (
 	"github.com/sk-develop/motivation-management/shared/logger"
 )
 
-type DueDate time.Time
+type UpdatedAt time.Time
 
-func (tv *taskValue) NewDueDate(value time.Time) (*DueDate, error) {
+func NewUpdatedAt(value time.Time) (*UpdatedAt, error) {
 	now := time.Now()
 	if !now.Before(value) {
 		err := errors.NewValidationError("Past date cannot be registered")
@@ -17,7 +17,7 @@ func (tv *taskValue) NewDueDate(value time.Time) (*DueDate, error) {
 
 		return nil, err
 	}
-	dueDate := DueDate(value)
+	updatedAt := UpdatedAt(value)
 
-	return &dueDate, nil
+	return &updatedAt, nil
 }

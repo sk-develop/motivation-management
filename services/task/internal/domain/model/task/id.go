@@ -1,4 +1,4 @@
-package value
+package task
 
 import (
 	"github.com/sk-develop/motivation-management/shared/errors"
@@ -7,7 +7,7 @@ import (
 
 type ID int
 
-func (tv *taskValue) NewID(i int) (*ID, error) {
+func NewID(i int) (*ID, error) {
 	if i < minLength {
 		err := errors.NewValidationError("ID must be an integer greater than or equal to 1")
 		logger.Warn(err)
