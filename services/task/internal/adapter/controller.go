@@ -7,15 +7,8 @@ import (
 	pb "github.com/sk-develop/motivation-management/shared/proto/task"
 )
 
-type Controller interface {
-	Get(pbReq *pb.GetTasksReq) ([]*pb.Task, error)
-	Create(pbReq *pb.CreateTaskReq) (*pb.Task, error)
-}
-
 type TaskController struct {
 	taskUsecase usecase.TaskUsecase
-	taskValue   value.TaskValue
-	taskModel   model.TaskModel
 }
 
 func NewTaskController(tu usecase.TaskUsecase, tv value.TaskValue, tm model.TaskModel) Controller {
