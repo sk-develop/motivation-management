@@ -3,7 +3,6 @@ package repository
 import (
 	"github.com/sk-develop/motivation-management/services/task/internal/domain/model/task"
 	"github.com/sk-develop/motivation-management/services/task/internal/domain/repository"
-	"github.com/sk-develop/motivation-management/shared/logger"
 
 	"gorm.io/gorm"
 )
@@ -19,7 +18,6 @@ func NewTaskRepository(conn *gorm.DB) repository.TaskRepository {
 func (tr *TaskRepository) ReadAll(userId task.UserID) (*task.Tasks, error) {
 	var foundTask task.Tasks
 	if err := tr.conn.Where("user_id = ?", userId).Find(&foundTask).Error; err != nil {
-		logger.Warn(err)
 		return nil, err
 	}
 
