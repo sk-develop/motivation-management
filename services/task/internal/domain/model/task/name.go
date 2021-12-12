@@ -8,15 +8,11 @@ type Name string
 
 func NewName(value string) (*Name, error) {
 	if len(value) == 0 {
-		err := errors.NewValidationError("Name is required")
-
-		return nil, err
+		return nil, errors.ValidationError("Name is required")
 	}
 
 	if len(value) > maxLength {
-		err := errors.NewValidationError("Name must be less than 255 characters")
-
-		return nil, err
+		return nil, errors.ValidationError("Name must be less than 255 characters")
 	}
 	title := Name(value)
 

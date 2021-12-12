@@ -1,14 +1,10 @@
 package errors
 
-type ValidationError struct {
-	Message string
-}
+import (
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+)
 
-func NewValidationError(message string) *ValidationError {
-	err := &ValidationError{Message: message}
-	return err
-}
-
-func (e *ValidationError) Error() string {
-	return e.Message
+func ValidationError(message string) error {
+	return status.Error(codes.InvalidArgument, message)
 }
