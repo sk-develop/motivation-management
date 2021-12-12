@@ -5,6 +5,10 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func ValidationError(message string) error {
-	return status.Error(codes.InvalidArgument, message)
+func InvalidArgument(message error) error {
+	return status.Error(codes.InvalidArgument, message.Error())
+}
+
+func Internal(message error) error {
+	return status.Error(codes.Internal, message.Error())
 }

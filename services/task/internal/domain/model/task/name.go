@@ -1,18 +1,18 @@
 package task
 
 import (
-	"github.com/sk-develop/motivation-management/shared/errors"
+	"errors"
 )
 
 type Name string
 
 func NewName(value string) (*Name, error) {
 	if len(value) == 0 {
-		return nil, errors.ValidationError("Name is required")
+		return nil, errors.New("Name is required")
 	}
 
 	if len(value) > maxLength {
-		return nil, errors.ValidationError("Name must be less than 255 characters")
+		return nil, errors.New("Name must be less than 255 characters")
 	}
 	title := Name(value)
 
