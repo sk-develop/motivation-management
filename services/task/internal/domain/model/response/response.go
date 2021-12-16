@@ -12,7 +12,7 @@ func GetTasksGrpcRes(tasks *task.Tasks) *pb.GetTasksRes {
 	return &pb.GetTasksRes{Tasks: tasksToGrpcMessage(tasks)}
 }
 
-func CreateTasksGrpcRes(task *task.Task) *pb.CreateTaskRes {
+func CreateTaskGrpcRes(task *task.Task) *pb.CreateTaskRes {
 	return &pb.CreateTaskRes{Task: taskToGrpcMessage(task)}
 }
 

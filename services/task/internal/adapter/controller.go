@@ -41,7 +41,7 @@ func (tc *TaskController) Create(pbReq *pb.CreateTaskReq) (*pb.CreateTaskRes, er
 		return nil, errors.Internal(err)
 	}
 
-	return response.CreateTasksGrpcRes(foundTask), nil
+	return response.CreateTaskGrpcRes(foundTask), nil
 }
 
 func (tc *TaskController) Update(pbReq *pb.UpdateTaskReq) (*pb.UpdateTaskRes, error) {
