@@ -17,10 +17,6 @@ const (
 
 type Tasks []Task
 
-func New(
-	userID UserID,
-	name Name,
-	dueDate DueDate,
-) *Task {
+func New(userID UserID, name Name, dueDate DueDate) *Task {
 	return &Task{UserID: userID, Name: name, DueDate: dueDate}
 }

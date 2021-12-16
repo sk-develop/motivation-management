@@ -9,6 +9,7 @@ import (
 type TaskUsecase interface {
 	ReadAll(req *request.GetTaskReq) (*task.Tasks, error)
 	Create(req *request.CreateTaskReq) (*task.Task, error)
+	Update(req *request.UpdateTaskReq) (*task.Task, error)
 }
 
 type taskUsecase struct {
@@ -25,4 +26,8 @@ func (tu *taskUsecase) ReadAll(req *request.GetTaskReq) (*task.Tasks, error) {
 
 func (tu *taskUsecase) Create(req *request.CreateTaskReq) (*task.Task, error) {
 	return tu.taskRepository.Create(req.UserID(), req.Name(), req.DueDate())
+}
+
+func (tu *taskUsecase) Update(req *request.UpdateTaskReq) (*task.Task, error) {
+	return tu.taskRepository.Update(req.ID(), req.Name(), req.DueDate())
 }

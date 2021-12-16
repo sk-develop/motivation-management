@@ -43,3 +43,17 @@ func (tc *TaskController) Create(pbReq *pb.CreateTaskReq) (*pb.CreateTaskRes, er
 
 	return response.CreateTasksGrpcRes(foundTasks), nil
 }
+
+func (tc *TaskController) Update(pbReq *pb.UpdateTaskReq) (*pb.UpdateTaskRes, error) {
+	req, err := request.NewUpdateTask(pbReq)
+	if err != nil {
+		return nil, errors.InvalidArgument(err)
+	}
+
+	foundTask, err := tc.taskUsecase.Update(req)
+	if err != nil {
+		return nil, errors.Internal(err)
+	}
+
+	return response.UpdateTaskGrpcRes(foundTask), nil
+}

@@ -9,6 +9,7 @@ import "google/protobuf/timestamp.proto";
 service taskService {
   rpc GetTasks(GetTasksReq) returns (GetTasksRes);
   rpc CreateTask(CreateTaskReq) returns (CreateTaskRes);
+  rpc UpdateTask(UpdateTaskReq) returns (UpdateTaskRes);
 
   rpc GetCompletedTasksTotal(GetTasksTotalReq) returns (GetCompletedTasksTotalRes);
   rpc GetCompletedTasksDailyTotal(GetTasksTotalReq) returns (CompletedTasksDailyTotalRes);
@@ -29,6 +30,16 @@ message CreateTaskReq {
 }
 
 message CreateTaskRes {
+  Task Task = 1;
+}
+
+message UpdateTaskReq {
+	int64 ID = 1;
+  string Name = 2;
+  google.protobuf.Timestamp DueDate = 3;
+}
+
+message UpdateTaskRes {
   Task Task = 1;
 }
 

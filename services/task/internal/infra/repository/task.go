@@ -16,12 +16,13 @@ func NewTaskRepository(conn *gorm.DB) repository.TaskRepository {
 }
 
 func (tr *TaskRepository) ReadAll(userId task.UserID) (*task.Tasks, error) {
-	var foundTask task.Tasks
+	var foundTask *task.Tasks
+
 	if err := tr.conn.Where("user_id = ?", userId).Find(&foundTask).Error; err != nil {
 		return nil, err
 	}
 
-	return &foundTask, nil
+	return foundTask, nil
 }
 
 func (tr *TaskRepository) Create(userID task.UserID, name task.Name, dueDate task.DueDate) (*task.Task, error) {
@@ -32,4 +33,14 @@ func (tr *TaskRepository) Create(userID task.UserID, name task.Name, dueDate tas
 	}
 
 	return createdTask, nil
+}
+
+func (tr *TaskRepository) Update(id task.ID, name task.Name, dueDate task.DueDate) (*task.Task, error) {
+	var updatedTask *task.Task
+
+	if err := tr.conn.Model(&updatedTask).Where("id = ?", id).Updates(&task.Task{Name: name, DueDate: dueDate}).Error; err != nil {
+		return nil, err
+	}
+
+	return updatedTask, nil
 }

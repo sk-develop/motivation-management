@@ -13,3 +13,7 @@ func (ts TaskServer) GetTasks(ctx context.Context, req *pb.GetTasksReq) (*pb.Get
 func (ts TaskServer) CreateTask(ctx context.Context, req *pb.CreateTaskReq) (*pb.CreateTaskRes, error) {
 	return ts.taskController.Create(req)
 }
+
+func (ts TaskServer) UpdateTask(ctx context.Context, req *pb.UpdateTaskReq) (*pb.UpdateTaskRes, error) {
+	return ts.taskController.Update(req)
+}
