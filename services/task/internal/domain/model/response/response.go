@@ -30,8 +30,8 @@ func tasksToGrpcMessage(tasks *task.Tasks) []*pb.Task {
 			Name:      string(t.Name),
 			Completed: bool(t.Completed),
 			DueDate:   grpc.Timestamp(time.Time(t.DueDate)),
-			CreatedAt: grpc.Timestamp(time.Time(t.DueDate)),
-			UpdatedAt: grpc.Timestamp(time.Time(t.DueDate)),
+			CreatedAt: grpc.Timestamp(time.Time(t.CreatedAt)),
+			UpdatedAt: grpc.Timestamp(time.Time(t.UpdatedAt)),
 		}
 
 		grpcMessage = append(grpcMessage, task)
@@ -47,8 +47,8 @@ func taskToGrpcMessage(t *task.Task) *pb.Task {
 		Name:      string(t.Name),
 		Completed: bool(t.Completed),
 		DueDate:   grpc.Timestamp(time.Time(t.DueDate)),
-		CreatedAt: grpc.Timestamp(time.Time(t.DueDate)),
-		UpdatedAt: grpc.Timestamp(time.Time(t.DueDate)),
+		CreatedAt: grpc.Timestamp(time.Time(t.CreatedAt)),
+		UpdatedAt: grpc.Timestamp(time.Time(t.UpdatedAt)),
 	}
 
 	return grpcMessage
