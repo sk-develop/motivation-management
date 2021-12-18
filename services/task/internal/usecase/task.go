@@ -11,6 +11,7 @@ type TaskUsecase interface {
 	Create(req *request.CreateTaskReq) (*task.Task, error)
 	Update(req *request.UpdateTaskReq) (*task.Task, error)
 	Delete(req *request.DeleteTasksReq) error
+	SwitchCompleted(req *request.SwitchCompletedReq) (*task.Task, error)
 }
 
 type taskUsecase struct {
@@ -35,4 +36,8 @@ func (tu *taskUsecase) Update(req *request.UpdateTaskReq) (*task.Task, error) {
 
 func (tu *taskUsecase) Delete(req *request.DeleteTasksReq) error {
 	return tu.taskRepository.Delete(req.IDs())
+}
+
+func (tu *taskUsecase) SwitchCompleted(req *request.SwitchCompletedReq) (*task.Task, error) {
+	return tu.taskRepository.SwitchCompleted(req.ID())
 }

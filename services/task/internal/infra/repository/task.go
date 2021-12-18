@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/sk-develop/motivation-management/services/task/internal/domain/model/task"
 	"github.com/sk-develop/motivation-management/services/task/internal/domain/repository"
+	"github.com/sk-develop/motivation-management/shared/logger"
 
 	"gorm.io/gorm"
 )
@@ -57,4 +58,16 @@ func (tr *TaskRepository) Delete(ids []task.ID) error {
 	}
 
 	return nil
+}
+
+func (tr *TaskRepository) SwitchCompleted(id task.ID) (*task.Task, error) {
+	var task task.Task
+	if err := tr.conn.Raw("UPDATE tasks SET completed = NOT completed WHERE id = ?", id).Scan(&task).Error; err != nil {
+		return nil, err
+	}
+	if err := tr.conn.Where("id = ?", id).Find(&task).Error; err != nil {
+		return nil, err
+	}
+
+	return &task, nil
 }

@@ -21,3 +21,7 @@ func (ts TaskServer) UpdateTask(ctx context.Context, req *pb.UpdateTaskReq) (*pb
 func (ts TaskServer) DeleteTasks(ctx context.Context, req *pb.DeleteTasksReq) (*pb.DeleteTasksRes, error) {
 	return ts.taskController.Delete(req)
 }
+
+func (ts TaskServer) SwitchCompleted(ctx context.Context, req *pb.SwitchCompletedReq) (*pb.SwitchCompletedRes, error) {
+	return ts.taskController.SwitchCompleted(req)
+}

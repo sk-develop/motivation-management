@@ -70,3 +70,17 @@ func (tc *TaskController) Delete(pbReq *pb.DeleteTasksReq) (*pb.DeleteTasksRes, 
 
 	return response.DeleteTasksGrpcRes(), nil
 }
+
+func (tc *TaskController) SwitchCompleted(pbReq *pb.SwitchCompletedReq) (*pb.SwitchCompletedRes, error) {
+	req, err := request.NewSwitchCompleted(pbReq)
+	if err != nil {
+		return nil, errors.InvalidArgument(err)
+	}
+
+	foundTask, err := tc.taskUsecase.SwitchCompleted(req)
+	if err != nil {
+		return nil, errors.Internal(err)
+	}
+
+	return response.SwitchCompletedGrpcRes(foundTask), nil
+}

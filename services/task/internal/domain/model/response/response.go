@@ -23,6 +23,9 @@ func UpdateTaskGrpcRes(task *task.Task) *pb.UpdateTaskRes {
 func DeleteTasksGrpcRes() *pb.DeleteTasksRes {
 	return &pb.DeleteTasksRes{}
 }
+func SwitchCompletedGrpcRes(task *task.Task) *pb.SwitchCompletedRes {
+	return &pb.SwitchCompletedRes{Task: taskToGrpcMessage(task)}
+}
 
 func tasksToGrpcMessage(tasks *task.Tasks) []*pb.Task {
 	var grpcMessage []*pb.Task
