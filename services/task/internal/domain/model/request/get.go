@@ -9,7 +9,7 @@ type GetTaskReq struct {
 	userID task.UserID
 }
 
-func NewGetTaskReq(pbReq *pb.GetTasksReq) (*GetTaskReq, error) {
+func NewGetTask(pbReq *pb.GetTasksReq) (*GetTaskReq, error) {
 	validUserID, err := task.NewUserID(pbReq.UserID)
 	if err != nil {
 		return nil, err

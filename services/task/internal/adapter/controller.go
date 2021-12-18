@@ -17,7 +17,7 @@ func NewTaskController(tu usecase.TaskUsecase) *TaskController {
 }
 
 func (tc *TaskController) Get(pbReq *pb.GetTasksReq) (*pb.GetTasksRes, error) {
-	req, err := request.NewGetTaskReq(pbReq)
+	req, err := request.NewGetTask(pbReq)
 	if err != nil {
 		return nil, errors.InvalidArgument(err)
 	}
