@@ -11,6 +11,8 @@ service taskService {
   rpc CreateTask(CreateTaskReq) returns (CreateTaskRes);
   rpc UpdateTask(UpdateTaskReq) returns (UpdateTaskRes);
   rpc DeleteTasks(DeleteTasksReq) returns (DeleteTasksRes);
+  
+  rpc SwitchCompleted(SwitchCompletedReq) returns (SwitchCompletedRes);
 
   rpc GetCompletedTasksTotal(GetTasksTotalReq) returns (GetCompletedTasksTotalRes);
   rpc GetCompletedTasksDailyTotal(GetTasksTotalReq) returns (CompletedTasksDailyTotalRes);
@@ -49,6 +51,14 @@ message DeleteTasksReq {
 }
 
 message DeleteTasksRes {}
+
+message SwitchCompletedReq {
+	int64 ID = 1;
+}
+
+message SwitchCompletedRes {
+  Task Task = 1;
+} 
 
 message GetTasksTotalReq {
 	string UserID = 1;

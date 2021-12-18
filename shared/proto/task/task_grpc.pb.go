@@ -22,6 +22,7 @@ type TaskServiceClient interface {
 	CreateTask(ctx context.Context, in *CreateTaskReq, opts ...grpc.CallOption) (*CreateTaskRes, error)
 	UpdateTask(ctx context.Context, in *UpdateTaskReq, opts ...grpc.CallOption) (*UpdateTaskRes, error)
 	DeleteTasks(ctx context.Context, in *DeleteTasksReq, opts ...grpc.CallOption) (*DeleteTasksRes, error)
+	SwitchCompleted(ctx context.Context, in *SwitchCompletedReq, opts ...grpc.CallOption) (*SwitchCompletedRes, error)
 	GetCompletedTasksTotal(ctx context.Context, in *GetTasksTotalReq, opts ...grpc.CallOption) (*GetCompletedTasksTotalRes, error)
 	GetCompletedTasksDailyTotal(ctx context.Context, in *GetTasksTotalReq, opts ...grpc.CallOption) (*CompletedTasksDailyTotalRes, error)
 }
@@ -70,6 +71,15 @@ func (c *taskServiceClient) DeleteTasks(ctx context.Context, in *DeleteTasksReq,
 	return out, nil
 }
 
+func (c *taskServiceClient) SwitchCompleted(ctx context.Context, in *SwitchCompletedReq, opts ...grpc.CallOption) (*SwitchCompletedRes, error) {
+	out := new(SwitchCompletedRes)
+	err := c.cc.Invoke(ctx, "/task.taskService/SwitchCompleted", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *taskServiceClient) GetCompletedTasksTotal(ctx context.Context, in *GetTasksTotalReq, opts ...grpc.CallOption) (*GetCompletedTasksTotalRes, error) {
 	out := new(GetCompletedTasksTotalRes)
 	err := c.cc.Invoke(ctx, "/task.taskService/GetCompletedTasksTotal", in, out, opts...)
@@ -96,6 +106,7 @@ type TaskServiceServer interface {
 	CreateTask(context.Context, *CreateTaskReq) (*CreateTaskRes, error)
 	UpdateTask(context.Context, *UpdateTaskReq) (*UpdateTaskRes, error)
 	DeleteTasks(context.Context, *DeleteTasksReq) (*DeleteTasksRes, error)
+	SwitchCompleted(context.Context, *SwitchCompletedReq) (*SwitchCompletedRes, error)
 	GetCompletedTasksTotal(context.Context, *GetTasksTotalReq) (*GetCompletedTasksTotalRes, error)
 	GetCompletedTasksDailyTotal(context.Context, *GetTasksTotalReq) (*CompletedTasksDailyTotalRes, error)
 	mustEmbedUnimplementedTaskServiceServer()
@@ -116,6 +127,9 @@ func (UnimplementedTaskServiceServer) UpdateTask(context.Context, *UpdateTaskReq
 }
 func (UnimplementedTaskServiceServer) DeleteTasks(context.Context, *DeleteTasksReq) (*DeleteTasksRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTasks not implemented")
+}
+func (UnimplementedTaskServiceServer) SwitchCompleted(context.Context, *SwitchCompletedReq) (*SwitchCompletedRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SwitchCompleted not implemented")
 }
 func (UnimplementedTaskServiceServer) GetCompletedTasksTotal(context.Context, *GetTasksTotalReq) (*GetCompletedTasksTotalRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCompletedTasksTotal not implemented")
@@ -208,6 +222,24 @@ func _TaskService_DeleteTasks_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_SwitchCompleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SwitchCompletedReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).SwitchCompleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/task.taskService/SwitchCompleted",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).SwitchCompleted(ctx, req.(*SwitchCompletedReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TaskService_GetCompletedTasksTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTasksTotalReq)
 	if err := dec(in); err != nil {
@@ -266,6 +298,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteTasks",
 			Handler:    _TaskService_DeleteTasks_Handler,
+		},
+		{
+			MethodName: "SwitchCompleted",
+			Handler:    _TaskService_SwitchCompleted_Handler,
 		},
 		{
 			MethodName: "GetCompletedTasksTotal",
