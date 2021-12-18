@@ -20,6 +20,10 @@ func UpdateTaskGrpcRes(task *task.Task) *pb.UpdateTaskRes {
 	return &pb.UpdateTaskRes{Task: taskToGrpcMessage(task)}
 }
 
+func DeleteTasksGrpcRes() *pb.DeleteTasksRes {
+	return &pb.DeleteTasksRes{}
+}
+
 func tasksToGrpcMessage(tasks *task.Tasks) []*pb.Task {
 	var grpcMessage []*pb.Task
 

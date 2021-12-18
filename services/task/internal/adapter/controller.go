@@ -57,3 +57,16 @@ func (tc *TaskController) Update(pbReq *pb.UpdateTaskReq) (*pb.UpdateTaskRes, er
 
 	return response.UpdateTaskGrpcRes(foundTask), nil
 }
+
+func (tc *TaskController) Delete(pbReq *pb.DeleteTasksReq) (*pb.DeleteTasksRes, error) {
+	req, err := request.NewDeleteTasks(pbReq)
+	if err != nil {
+		return nil, errors.InvalidArgument(err)
+	}
+
+	if err := tc.taskUsecase.Delete(req); err != nil {
+		return nil, errors.Internal(err)
+	}
+
+	return response.DeleteTasksGrpcRes(), nil
+}

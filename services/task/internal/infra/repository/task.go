@@ -49,3 +49,12 @@ func (tr *TaskRepository) Update(id task.ID, name task.Name, dueDate task.DueDat
 
 	return task, nil
 }
+
+func (tr *TaskRepository) Delete(ids []task.ID) error {
+	var tasks *task.Task
+	if err := tr.conn.Delete(&tasks, ids).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

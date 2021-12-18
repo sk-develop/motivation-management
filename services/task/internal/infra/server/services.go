@@ -17,3 +17,7 @@ func (ts TaskServer) CreateTask(ctx context.Context, req *pb.CreateTaskReq) (*pb
 func (ts TaskServer) UpdateTask(ctx context.Context, req *pb.UpdateTaskReq) (*pb.UpdateTaskRes, error) {
 	return ts.taskController.Update(req)
 }
+
+func (ts TaskServer) DeleteTasks(ctx context.Context, req *pb.DeleteTasksReq) (*pb.DeleteTasksRes, error) {
+	return ts.taskController.Delete(req)
+}

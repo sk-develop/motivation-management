@@ -10,6 +10,7 @@ type TaskUsecase interface {
 	ReadAll(req *request.GetTaskReq) (*task.Tasks, error)
 	Create(req *request.CreateTaskReq) (*task.Task, error)
 	Update(req *request.UpdateTaskReq) (*task.Task, error)
+	Delete(req *request.DeleteTasksReq) error
 }
 
 type taskUsecase struct {
@@ -30,4 +31,8 @@ func (tu *taskUsecase) Create(req *request.CreateTaskReq) (*task.Task, error) {
 
 func (tu *taskUsecase) Update(req *request.UpdateTaskReq) (*task.Task, error) {
 	return tu.taskRepository.Update(req.ID(), req.Name(), req.DueDate())
+}
+
+func (tu *taskUsecase) Delete(req *request.DeleteTasksReq) error {
+	return tu.taskRepository.Delete(req.IDs())
 }
