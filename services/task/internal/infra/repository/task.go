@@ -36,11 +36,16 @@ func (tr *TaskRepository) Create(userID task.UserID, name task.Name, dueDate tas
 }
 
 func (tr *TaskRepository) Update(id task.ID, name task.Name, dueDate task.DueDate) (*task.Task, error) {
-	var updatedTask *task.Task
-
-	if err := tr.conn.Model(&updatedTask).Where("id = ?", id).Updates(&task.Task{Name: name, DueDate: dueDate}).Error; err != nil {
+	var task *task.Task
+	if err := tr.conn.Take(&task, id).Error; err != nil {
 		return nil, err
 	}
 
-	return updatedTask, nil
+	task.Name = name
+	task.DueDate = dueDate
+	if err := tr.conn.Save(task).Error; err != nil {
+		return nil, err
+	}
+
+	return task, nil
 }
