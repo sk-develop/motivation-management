@@ -21,6 +21,7 @@ type TaskServiceClient interface {
 	GetTasks(ctx context.Context, in *GetTasksReq, opts ...grpc.CallOption) (*GetTasksRes, error)
 	CreateTask(ctx context.Context, in *CreateTaskReq, opts ...grpc.CallOption) (*CreateTaskRes, error)
 	UpdateTask(ctx context.Context, in *UpdateTaskReq, opts ...grpc.CallOption) (*UpdateTaskRes, error)
+	DeleteTasks(ctx context.Context, in *DeleteTasksReq, opts ...grpc.CallOption) (*DeleteTasksRes, error)
 	GetCompletedTasksTotal(ctx context.Context, in *GetTasksTotalReq, opts ...grpc.CallOption) (*GetCompletedTasksTotalRes, error)
 	GetCompletedTasksDailyTotal(ctx context.Context, in *GetTasksTotalReq, opts ...grpc.CallOption) (*CompletedTasksDailyTotalRes, error)
 }
@@ -60,6 +61,15 @@ func (c *taskServiceClient) UpdateTask(ctx context.Context, in *UpdateTaskReq, o
 	return out, nil
 }
 
+func (c *taskServiceClient) DeleteTasks(ctx context.Context, in *DeleteTasksReq, opts ...grpc.CallOption) (*DeleteTasksRes, error) {
+	out := new(DeleteTasksRes)
+	err := c.cc.Invoke(ctx, "/task.taskService/DeleteTasks", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *taskServiceClient) GetCompletedTasksTotal(ctx context.Context, in *GetTasksTotalReq, opts ...grpc.CallOption) (*GetCompletedTasksTotalRes, error) {
 	out := new(GetCompletedTasksTotalRes)
 	err := c.cc.Invoke(ctx, "/task.taskService/GetCompletedTasksTotal", in, out, opts...)
@@ -85,6 +95,7 @@ type TaskServiceServer interface {
 	GetTasks(context.Context, *GetTasksReq) (*GetTasksRes, error)
 	CreateTask(context.Context, *CreateTaskReq) (*CreateTaskRes, error)
 	UpdateTask(context.Context, *UpdateTaskReq) (*UpdateTaskRes, error)
+	DeleteTasks(context.Context, *DeleteTasksReq) (*DeleteTasksRes, error)
 	GetCompletedTasksTotal(context.Context, *GetTasksTotalReq) (*GetCompletedTasksTotalRes, error)
 	GetCompletedTasksDailyTotal(context.Context, *GetTasksTotalReq) (*CompletedTasksDailyTotalRes, error)
 	mustEmbedUnimplementedTaskServiceServer()
@@ -102,6 +113,9 @@ func (UnimplementedTaskServiceServer) CreateTask(context.Context, *CreateTaskReq
 }
 func (UnimplementedTaskServiceServer) UpdateTask(context.Context, *UpdateTaskReq) (*UpdateTaskRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
+}
+func (UnimplementedTaskServiceServer) DeleteTasks(context.Context, *DeleteTasksReq) (*DeleteTasksRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTasks not implemented")
 }
 func (UnimplementedTaskServiceServer) GetCompletedTasksTotal(context.Context, *GetTasksTotalReq) (*GetCompletedTasksTotalRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCompletedTasksTotal not implemented")
@@ -176,6 +190,24 @@ func _TaskService_UpdateTask_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_DeleteTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTasksReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).DeleteTasks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/task.taskService/DeleteTasks",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).DeleteTasks(ctx, req.(*DeleteTasksReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TaskService_GetCompletedTasksTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTasksTotalReq)
 	if err := dec(in); err != nil {
@@ -230,6 +262,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateTask",
 			Handler:    _TaskService_UpdateTask_Handler,
+		},
+		{
+			MethodName: "DeleteTasks",
+			Handler:    _TaskService_DeleteTasks_Handler,
 		},
 		{
 			MethodName: "GetCompletedTasksTotal",

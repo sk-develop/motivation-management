@@ -10,6 +10,7 @@ service taskService {
   rpc GetTasks(GetTasksReq) returns (GetTasksRes);
   rpc CreateTask(CreateTaskReq) returns (CreateTaskRes);
   rpc UpdateTask(UpdateTaskReq) returns (UpdateTaskRes);
+  rpc DeleteTasks(DeleteTasksReq) returns (DeleteTasksRes);
 
   rpc GetCompletedTasksTotal(GetTasksTotalReq) returns (GetCompletedTasksTotalRes);
   rpc GetCompletedTasksDailyTotal(GetTasksTotalReq) returns (CompletedTasksDailyTotalRes);
@@ -42,6 +43,12 @@ message UpdateTaskReq {
 message UpdateTaskRes {
   Task Task = 1;
 }
+
+message DeleteTasksReq {
+	repeated int64 IDs = 1;
+}
+
+message DeleteTasksRes {}
 
 message GetTasksTotalReq {
 	string UserID = 1;
